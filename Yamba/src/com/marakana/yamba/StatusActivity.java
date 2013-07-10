@@ -1,5 +1,8 @@
 package com.marakana.yamba;
 
+import com.marakana.android.yamba.clientlib.YambaClient;
+import com.marakana.android.yamba.clientlib.YambaClientException;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.graphics.Color;
@@ -39,7 +42,13 @@ public class StatusActivity extends Activity {
 				Log.d("Yamba", "Click on Tweet, we post:"
 						+ mTextStatus.getText().toString());
 				
-				//TODO post this on twitter
+				//post entered text on twitter
+				YambaClient cloud = new YambaClient("student", "password");
+				try {
+					cloud.postStatus(mTextStatus.getText().toString());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		
