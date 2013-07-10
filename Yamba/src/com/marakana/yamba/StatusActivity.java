@@ -2,6 +2,7 @@ package com.marakana.yamba;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -60,6 +61,13 @@ public class StatusActivity extends Activity {
 				int count = 140 - s.length();
 				mTextCount.setText(Integer.toString(count));
 				Log.d("Yamba", "Chars left:" + count );
+				
+				// if we have 50 chars left we change the colour to RED
+				if (count<50)
+					mTextCount.setTextColor(Color.RED);
+				else
+					mTextCount.setTextColor(Color.BLACK);
+				
 			}
 		};
 		mTextStatus.addTextChangedListener(watcher);

@@ -26,8 +26,9 @@
         android:ems="10"
         android:inputType="textMultiLine"
         android:text="@string/status_text_hint"
+        android:gravity="top"
         android:maxLength="140"
-        android:textSize="30sp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/status_text_count"
