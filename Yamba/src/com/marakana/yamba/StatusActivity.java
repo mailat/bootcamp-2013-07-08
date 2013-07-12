@@ -5,6 +5,7 @@ import com.marakana.android.yamba.clientlib.YambaClient;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +16,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class StatusActivity extends Activity {
 
@@ -96,6 +98,7 @@ public class StatusActivity extends Activity {
 	// our thread safe AsyncTask poster
 	class PostTask extends AsyncTask<String, Integer, String>
 	{
+		private ProgressDialog progress;
 
 		@Override
 		protected String doInBackground(String... params) {
@@ -104,12 +107,25 @@ public class StatusActivity extends Activity {
 			try {
 				cloud.postStatus(params[0]);
 				Log.d("Yamba", "Post text was ok." );
+				return ("We just posted in the cloud.");
 			} catch (Throwable e) {
 				Log.d("Yamba", "Post text was NOT OK." );
 				e.printStackTrace();
+				return ("Failed to post in the cloud.");
 			}
-			
-			return null;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			//display notificatio about the posting
+			progress.dismiss();
+			Log.d("Yamba", "Show the text." );
+			Toast.makeText(StatusActivity.this, result, Toast.LENGTH_LONG).show();
+		}
+
+		@Override
+		protected void onPreExecute() {
+			progress = ProgressDialog.show(StatusActivity.this, "Posting to yamba server", "Please wait ....");
 		}
 		
 	}
