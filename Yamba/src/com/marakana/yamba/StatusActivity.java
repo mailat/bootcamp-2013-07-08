@@ -1,8 +1,8 @@
 package com.marakana.yamba;
 
 import com.marakana.android.yamba.clientlib.YambaClient;
-import com.marakana.android.yamba.clientlib.YambaClientException;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.graphics.Color;
@@ -43,12 +43,16 @@ public class StatusActivity extends Activity {
 						+ mTextStatus.getText().toString());
 				
 				//post entered text on twitter
-				YambaClient cloud = new YambaClient("student", "password");
-				try {
-					cloud.postStatus(mTextStatus.getText().toString());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				PostTask postTask = new PostTask();
+				postTask.execute(mTextStatus.getText().toString());
+				
+				
+//				YambaClient cloud = new YambaClient("student", "password");
+//				try {
+//					cloud.postStatus(mTextStatus.getText().toString());
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
 			}
 		});
 		
@@ -87,6 +91,27 @@ public class StatusActivity extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.status, menu);
 		return true;
+	}
+	
+	// our thread safe AsyncTask poster
+	class PostTask extends AsyncTask<String, Integer, String>
+	{
+
+		@Override
+		protected String doInBackground(String... params) {
+			//post entered text on twitter
+			YambaClient cloud = new YambaClient("student", "password");
+			try {
+				cloud.postStatus(params[0]);
+				Log.d("Yamba", "Post text was ok." );
+			} catch (Throwable e) {
+				Log.d("Yamba", "Post text was NOT OK." );
+				e.printStackTrace();
+			}
+			
+			return null;
+		}
+		
 	}
 
 }
