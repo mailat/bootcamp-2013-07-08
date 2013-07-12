@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -28,7 +29,7 @@ public class StatusActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.status);
-
+		
 		Log.d("Yamba", "StatusActivity onCreate");
 
 		// get a reference to the widgets
@@ -48,13 +49,6 @@ public class StatusActivity extends Activity {
 				PostTask postTask = new PostTask();
 				postTask.execute(mTextStatus.getText().toString());
 				
-				
-//				YambaClient cloud = new YambaClient("student", "password");
-//				try {
-//					cloud.postStatus(mTextStatus.getText().toString());
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
 			}
 		});
 		
@@ -92,6 +86,11 @@ public class StatusActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.status, menu);
+		
+		//TODO Homework
+		//startActivity(new Intent(this, PrefsActivity.class));
+		//finish();
+		
 		return true;
 	}
 	
