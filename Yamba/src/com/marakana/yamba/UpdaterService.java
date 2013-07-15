@@ -1,5 +1,9 @@
 package com.marakana.yamba;
 
+import java.util.List;
+
+import com.marakana.android.yamba.clientlib.YambaClient.Status;
+
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
@@ -73,6 +77,14 @@ public class UpdaterService extends Service {
 				
 				try {
 					Log.d(TAG, "Updater run");
+					//get all the posts from sthe timeline
+					List<Status> timeline = ((YambaApplication) getApplication()).getYambaClient().getTimeline(20);
+					
+					for (Status status:timeline)
+					{
+						Log.d(TAG, "user: " + status.getUser() + " posted: " + status.getMessage());
+					}
+
 					Thread.sleep(DELAY);
 				} catch (Throwable e) {
 					e.printStackTrace();
