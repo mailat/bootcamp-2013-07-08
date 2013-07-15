@@ -1,15 +1,10 @@
 package com.marakana.yamba;
 
-import com.marakana.android.yamba.clientlib.YambaClient;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -23,14 +18,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class StatusActivity extends Activity implements OnSharedPreferenceChangeListener {
+public class StatusActivity extends Activity {
 
 	Button mButtonTweet;
 	EditText mTextStatus;
 	TextView mTextCount;
-	SharedPreferences prefs;
-	YambaClient cloud = null;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -38,10 +31,6 @@ public class StatusActivity extends Activity implements OnSharedPreferenceChange
 		
 		Log.d("Yamba", "StatusActivity onCreate");
 
-		//register on shared preferences changes
-		prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		prefs.registerOnSharedPreferenceChangeListener(this);
-		
 		// get a reference to the widgets
 		mButtonTweet = (Button) findViewById(R.id.status_button_tweet);
 		mTextStatus = (EditText) findViewById(R.id.status_text);
@@ -123,7 +112,7 @@ public class StatusActivity extends Activity implements OnSharedPreferenceChange
 			//post entered text on twitter
 			
 			try {
-				getYambaClient().postStatus(params[0]);
+				((YambaApplication) getApplication()).getYambaClient().postStatus(params[0]);
 				Log.d("Yamba", "Post text was ok." );
 				return ("We just posted in the cloud.");
 			} catch (Throwable e) {
@@ -147,31 +136,4 @@ public class StatusActivity extends Activity implements OnSharedPreferenceChange
 		}
 		
 	}
-	
-	private YambaClient getYambaClient()
-	{
-		//check if we already initialized the YambaClient object
-		if (cloud == null)
-		{
-			//use the preference values for username, password, etc
-			String username, password, apiRoot;
-			username = prefs.getString("username", "student");
-			password = prefs.getString("password", "password");
-			apiRoot = prefs.getString("apiRoot", "");
-			
-			
-			//create an instance because it is null
-			cloud = new YambaClient(username, password);
-		}
-		
-		return(cloud);
-	}
-
-	@Override
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
-			String key) {
-		//back from preference activity, it is possible that the credentials are changed
-		//TODO
-	}
-
 }
