@@ -47,7 +47,7 @@ public class YambaApplication extends Application implements OnSharedPreferenceC
 	}
 
 	@Override
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+	public synchronized void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
 			String key) {
 		//back from preference activity, it is possible that the credentials are changed
 		cloud = null;
