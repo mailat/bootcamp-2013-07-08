@@ -4,14 +4,18 @@ import com.marakana.android.yamba.clientlib.YambaClient;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.graphics.Color;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -19,11 +23,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class StatusActivity extends Activity {
+public class StatusActivity extends Activity implements OnSharedPreferenceChangeListener {
 
 	Button mButtonTweet;
 	EditText mTextStatus;
 	TextView mTextCount;
+	SharedPreferences prefs;
+	YambaClient cloud = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +38,10 @@ public class StatusActivity extends Activity {
 		
 		Log.d("Yamba", "StatusActivity onCreate");
 
+		//register on shared preferences changes
+		prefs = PreferenceManager.getDefaultSharedPreferences(this);
+		prefs.registerOnSharedPreferenceChangeListener(this);
+		
 		// get a reference to the widgets
 		mButtonTweet = (Button) findViewById(R.id.status_button_tweet);
 		mTextStatus = (EditText) findViewById(R.id.status_text);
@@ -86,14 +96,23 @@ public class StatusActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.status, menu);
-		
-		//TODO Homework
-		//startActivity(new Intent(this, PrefsActivity.class));
-		//finish();
-		
+
 		return true;
 	}
 	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		//action_settings
+		switch ( item.getItemId() )
+		{
+			case R.id.action_settings :
+				startActivity(new Intent(this, PrefsActivity.class));
+				break;
+		}
+		
+		return true;
+	}
+
 	// our thread safe AsyncTask poster
 	class PostTask extends AsyncTask<String, Integer, String>
 	{
@@ -102,9 +121,9 @@ public class StatusActivity extends Activity {
 		@Override
 		protected String doInBackground(String... params) {
 			//post entered text on twitter
-			YambaClient cloud = new YambaClient("student", "password");
+			
 			try {
-				cloud.postStatus(params[0]);
+				getYambaClient().postStatus(params[0]);
 				Log.d("Yamba", "Post text was ok." );
 				return ("We just posted in the cloud.");
 			} catch (Throwable e) {
@@ -127,6 +146,32 @@ public class StatusActivity extends Activity {
 			progress = ProgressDialog.show(StatusActivity.this, "Posting to yamba server", "Please wait ....");
 		}
 		
+	}
+	
+	private YambaClient getYambaClient()
+	{
+		//check if we already initialized the YambaClient object
+		if (cloud == null)
+		{
+			//use the preference values for username, password, etc
+			String username, password, apiRoot;
+			username = prefs.getString("username", "student");
+			password = prefs.getString("password", "password");
+			apiRoot = prefs.getString("apiRoot", "");
+			
+			
+			//create an instance because it is null
+			cloud = new YambaClient(username, password);
+		}
+		
+		return(cloud);
+	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences,
+			String key) {
+		//back from preference activity, it is possible that the credentials are changed
+		//TODO
 	}
 
 }
