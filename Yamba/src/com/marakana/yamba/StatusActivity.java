@@ -99,12 +99,13 @@ public class StatusActivity extends Activity {
 				break;
 			case R.id.itemServiceStart :
 				//start the service
-				startService(new Intent(this, UpdaterService.class));
+				//startService(new Intent(this, UpdaterService.class));
+				startService(new Intent(this, RefreshService.class));
 				break;	
-			case R.id.itemServiceStop :
-				//stop service
-				stopService(new Intent(this, UpdaterService.class));
-				break;
+//			case R.id.itemServiceStop :
+//				//stop service
+//				stopService(new Intent(this, UpdaterService.class));
+//				break;
 		}
 		
 		return true;

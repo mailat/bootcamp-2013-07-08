@@ -29,6 +29,7 @@
         
         <!-- services goes here -->
         <service android:name=".UpdaterService"/>
+		<service android:name=".RefreshService"/>
     </application>
 
 </manifest>
