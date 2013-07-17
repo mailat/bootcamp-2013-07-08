@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="counties_array">
+		<item>Iași</item>
+		<item>Prahova</item>
+		<item>Bacau</item>
+		<item>Constanța</item>
+		<item>Dolj</item>
+		<item>Suceava</item>
+		<item>Cluj</item>
+		<item>Timiș</item>
+		<item>Argeș</item>
+		<item>Galați</item>
+		<item>Brașov</item>
+		<item>Bihor</item>
+		<item>Mureș</item>
+		<item>Neamț</item>
+		<item>Dîmbovița</item>
+		<item>Maramureș</item>
+		<item>Buzau</item>
+		<item>Olt</item>
+		<item>Hunedoara</item>
+		<item>Arad</item>
+		<item>Botoșani</item>
+		<item>Vaslui</item>
+		<item>Teleorman</item>
+		<item>Sibiu</item>
+		<item>Vâlcea</item>
+		<item>Vrancea</item>
+		<item>Gorj</item>
+		<item>Alba</item>
+		<item>Satu Mare</item>
+		<item>Braila</item>
+		<item>Caraș-Severin</item>
+		<item>Harghita</item>
+		<item>Bistrița-Nasaud</item>
+		<item>Calarași</item>
+		<item>Mehedinți</item>
+		<item>Ialomița</item>
+		<item>Ilfov</item>
+		<item>Giurgiu</item>
+		<item>Tulcea</item>
+		<item>Salaj</item>
+		<item>Covasna</item>
+    </string-array>
+</resources>
