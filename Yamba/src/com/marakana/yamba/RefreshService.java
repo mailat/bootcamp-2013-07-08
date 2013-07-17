@@ -28,7 +28,7 @@ public class RefreshService extends IntentService {
 			
 			for (Status status:timeline)
 			{
-				Log.d(TAG, "user: " + status.getUser() + " posted: " + status.getMessage());
+				Log.d(TAG, "createdAt: " + status.getCreatedAt() + ", user: " + status.getUser() + ", posted: " + status.getMessage());
 			}
 		} catch (Throwable e) {
 			e.printStackTrace();
