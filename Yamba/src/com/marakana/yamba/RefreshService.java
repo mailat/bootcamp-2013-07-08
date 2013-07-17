@@ -44,7 +44,14 @@ public class RefreshService extends IntentService {
 				values.put(StatusContract.Column.C_CREATED_AT, status.getCreatedAt().getTime());
 				values.put(StatusContract.Column.C_USER, status.getUser());
 				values.put(StatusContract.Column.C_TXT, status.getMessage());
-				db.insert(StatusContract.TABLE, null, values);
+				try
+				{
+					db.insertOrThrow(StatusContract.TABLE, null, values);
+				}
+				catch (Throwable e)
+				{
+					//no need to do an update just ignore it
+				}
 			}
 			
 			//close the db
