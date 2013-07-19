@@ -45,6 +45,8 @@ public class DrawView extends View implements OnTouchListener {
         point.x = event.getX();
         point.y = event.getY();
         points.add(point);
+        
+        // add text on the scree
         invalidate();
         Log.d(TAG, "point: " + point);
         return true;
